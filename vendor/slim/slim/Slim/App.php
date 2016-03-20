@@ -230,6 +230,7 @@ class App
 
     /**
      * Add route with multiple methods
+     * 添加具有多种请求方法的路由
      *
      * @param  string[] $methods  Numeric array of HTTP method names
      * @param  string   $pattern  The route URI pattern
@@ -239,10 +240,12 @@ class App
      */
     public function map(array $methods, $pattern, $callable)
     {
+        // 绑定路由第三个参数，也就是闭包中的$this到容器上
         if ($callable instanceof Closure) {
             $callable = $callable->bindTo($this->container);
         }
 
+        // 调用router组件的map()方法执行绑定路由
         $route = $this->container->get('router')->map($methods, $pattern, $callable);
         if (is_callable([$route, 'setContainer'])) {
             $route->setContainer($this->container);

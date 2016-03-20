@@ -42,8 +42,10 @@ class Container implements \ArrayAccess
 
     /**
      * Instantiate the container.
+     * 实例化容器
      *
      * Objects and parameters can be passed as argument to the constructor.
+     * 对象和参数可以通过参数传入构造函数
      *
      * @param array $values The parameters or objects.
      */
@@ -59,15 +61,21 @@ class Container implements \ArrayAccess
 
     /**
      * Sets a parameter or an object.
+     * 设置参数或对象
      *
      * Objects must be defined as Closures.
+     * 对象也可以定义为闭包
      *
      * Allowing any PHP callable leads to difficult to debug problems
      * as function names (strings) are callable (creating a function with
      * the same name as an existing parameter would break your container).
+     * 允许所有的PHP回调会导致难以调试，因为函数名是可执行的。（创建一个与
+     * 已存在参数同名的方法会导致容器报错）
      *
      * @param string $id    The unique identifier for the parameter or object
+     * 参数或对象的唯一ID
      * @param mixed  $value The value of the parameter or a closure to define an object
+     * 参数的值或者定义对象的闭包
      *
      * @throws \RuntimeException Prevent override of a frozen service
      */
@@ -83,10 +91,13 @@ class Container implements \ArrayAccess
 
     /**
      * Gets a parameter or an object.
+     * 获取参数或对象
      *
      * @param string $id The unique identifier for the parameter or object
+     * 参数或对象的唯一ID
      *
      * @return mixed The value of the parameter or an object
+     * 参数的值或者定义对象的闭包
      *
      * @throws \InvalidArgumentException if the identifier is not defined
      */
@@ -120,6 +131,7 @@ class Container implements \ArrayAccess
 
     /**
      * Checks if a parameter or an object is set.
+     * 检查参数或对象是否被设置
      *
      * @param string $id The unique identifier for the parameter or object
      *
@@ -132,6 +144,7 @@ class Container implements \ArrayAccess
 
     /**
      * Unsets a parameter or an object.
+     * 移除指定参数或对象
      *
      * @param string $id The unique identifier for the parameter or object
      */
@@ -148,6 +161,7 @@ class Container implements \ArrayAccess
 
     /**
      * Marks a callable as being a factory service.
+     * 标记一个回调函数为工厂服务
      *
      * @param callable $callable A service definition to be used as a factory
      *
@@ -168,8 +182,10 @@ class Container implements \ArrayAccess
 
     /**
      * Protects a callable from being interpreted as a service.
+     * 保护回调函数使之不被看作服务
      *
      * This is useful when you want to store a callable as a parameter.
+     * 本方法用于将一个回调函数储存为参数
      *
      * @param callable $callable A callable to protect from being evaluated
      *
@@ -190,6 +206,7 @@ class Container implements \ArrayAccess
 
     /**
      * Gets a parameter or the closure defining an object.
+     * 获取一个参数或定义对象的回调函数
      *
      * @param string $id The unique identifier for the parameter or object
      *
@@ -212,9 +229,11 @@ class Container implements \ArrayAccess
 
     /**
      * Extends an object definition.
+     * 扩展对象的定义
      *
      * Useful when you want to extend an existing object definition,
      * without necessarily loading that object.
+     * 本函数用于扩展一个已存在的对象，没有必要加载那个对象
      *
      * @param string   $id       The unique identifier for the object
      * @param callable $callable A service definition to extend the original
@@ -253,6 +272,7 @@ class Container implements \ArrayAccess
 
     /**
      * Returns all defined value names.
+     * 返回所有values属性的键
      *
      * @return array An array of value names
      */
@@ -263,6 +283,7 @@ class Container implements \ArrayAccess
 
     /**
      * Registers a service provider.
+     * 注册服务提供者
      *
      * @param ServiceProviderInterface $provider A ServiceProviderInterface instance
      * @param array                    $values   An array of values that customizes the provider

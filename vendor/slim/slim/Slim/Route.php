@@ -18,6 +18,7 @@ use Slim\Interfaces\RouteInterface;
 
 /**
  * Route
+ * 路由规则
  */
 class Route extends Routable implements RouteInterface
 {

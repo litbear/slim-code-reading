@@ -13,6 +13,7 @@ use Slim\Interfaces\CollectionInterface;
 
 /**
  * Collection
+ * 集合
  *
  * This class provides a common interface used by many other
  * classes in a Slim application that manage "collections"

@@ -22,6 +22,7 @@ use Slim\Interfaces\RouteInterface;
 
 /**
  * Router
+ * 路由管理器
  *
  * This class organizes Slim application route objects. It is responsible
  * for registering route objects, assigning names to route objects,
@@ -106,6 +107,7 @@ class Router implements RouterInterface
 
     /**
      * Add route
+     * 绑定路由
      *
      * @param  string[] $methods Array of HTTP methods
      * @param  string   $pattern The route pattern
@@ -210,6 +212,7 @@ class Router implements RouterInterface
 
     /**
      * Process route groups
+     * 处理多层嵌套的路由组
      *
      * @return string A group pattern to prefix routes with
      */

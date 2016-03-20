@@ -29,17 +29,23 @@ use Slim\Interfaces\RouterInterface;
 
 /**
  * Slim's default DI container is Pimple.
+ * Slim默认的依赖注入容器，继承自 Pimple
  *
  * Slim\App expects a container that implements Interop\Container\ContainerInterface
  * with these service keys configured and ready for use:
+ * Slim\App 类需要一个实现了 Interop\Container\ContainerInterface 接口的容器，
+ * 默认配置并提供了以下几种服务的键：
  *
  *  - settings: an array or instance of \ArrayAccess
+ *    数组或\ArrayAccess的实例
  *  - environment: an instance of \Slim\Interfaces\Http\EnvironmentInterface
+ *    \Slim\Interfaces\Http\EnvironmentInterface 接口的实例
  *  - request: an instance of \Psr\Http\Message\ServerRequestInterface
  *  - response: an instance of \Psr\Http\Message\ResponseInterface
  *  - router: an instance of \Slim\Interfaces\RouterInterface
  *  - foundHandler: an instance of \Slim\Interfaces\InvocationStrategyInterface
  *  - errorHandler: a callable with the signature: function($request, $response, $exception)
+ *    制订了函数签名的回调
  *  - notFoundHandler: a callable with the signature: function($request, $response)
  *  - notAllowedHandler: a callable with the signature: function($request, $response, $allowedHttpMethods)
  *  - callableResolver: an instance of callableResolver
@@ -59,6 +65,7 @@ class Container extends PimpleContainer implements ContainerInterface
 {
     /**
      * Default settings
+     * 默认设置
      *
      * @var array
      */
@@ -72,6 +79,7 @@ class Container extends PimpleContainer implements ContainerInterface
 
     /**
      * Create new container
+     * 创建新的容器
      *
      * @param array $values The parameters or objects.
      */
@@ -85,9 +93,11 @@ class Container extends PimpleContainer implements ContainerInterface
 
     /**
      * This function registers the default services that Slim needs to work.
+     * 本方法注册默认服务，以及做一些框架必要的工作
      *
      * All services are shared - that is, they are registered such that the
      * same instance is returned on subsequent calls.
+     * 所有的服务都是分享的，因此，一次注册，多次调用返回的都是一个实例
      *
      * @param array $userSettings Associative array of application settings
      *
@@ -100,6 +110,8 @@ class Container extends PimpleContainer implements ContainerInterface
         /**
          * This service MUST return an array or an
          * instance of \ArrayAccess.
+         * 本服务必须返回数组或\ArrayAccess实例
+         * 匿名函数使用传入配置覆盖合并了默认配置
          *
          * @return array|\ArrayAccess
          */
@@ -111,6 +123,7 @@ class Container extends PimpleContainer implements ContainerInterface
             /**
              * This service MUST return a shared instance
              * of \Slim\Interfaces\Http\EnvironmentInterface.
+             * 单例 指定类实例
              *
              * @return EnvironmentInterface
              */
@@ -122,6 +135,7 @@ class Container extends PimpleContainer implements ContainerInterface
         if (!isset($this['request'])) {
             /**
              * PSR-7 Request object
+             * PSR-7标准的请求对象
              *
              * @param Container $c
              *
@@ -135,6 +149,7 @@ class Container extends PimpleContainer implements ContainerInterface
         if (!isset($this['response'])) {
             /**
              * PSR-7 Response object
+             * PSR-7标准的响应对象
              *
              * @param Container $c
              *
@@ -152,6 +167,7 @@ class Container extends PimpleContainer implements ContainerInterface
             /**
              * This service MUST return a SHARED instance
              * of \Slim\Interfaces\RouterInterface.
+             * 单例，指定接口实例
              *
              * @return RouterInterface
              */
@@ -164,6 +180,7 @@ class Container extends PimpleContainer implements ContainerInterface
             /**
              * This service MUST return a SHARED instance
              * of \Slim\Interfaces\InvocationStrategyInterface.
+             * 单例，指定接口实例
              *
              * @return InvocationStrategyInterface
              */
@@ -176,6 +193,7 @@ class Container extends PimpleContainer implements ContainerInterface
             /**
              * This service MUST return a callable
              * that accepts three arguments:
+             * 接受以下三个参数的回调
              *
              * 1. Instance of \Psr\Http\Message\ServerRequestInterface
              * 2. Instance of \Psr\Http\Message\ResponseInterface
@@ -183,6 +201,7 @@ class Container extends PimpleContainer implements ContainerInterface
              *
              * The callable MUST return an instance of
              * \Psr\Http\Message\ResponseInterface.
+             * 指定接口实例
              *
              * @param Container $c
              *
@@ -197,12 +216,14 @@ class Container extends PimpleContainer implements ContainerInterface
             /**
              * This service MUST return a callable
              * that accepts two arguments:
+             * 必须是包含以下两个参数的回调
              *
              * 1. Instance of \Psr\Http\Message\ServerRequestInterface
              * 2. Instance of \Psr\Http\Message\ResponseInterface
              *
              * The callable MUST return an instance of
              * \Psr\Http\Message\ResponseInterface.
+             * 指定接口实例
              *
              * @return callable
              */
@@ -215,6 +236,7 @@ class Container extends PimpleContainer implements ContainerInterface
             /**
              * This service MUST return a callable
              * that accepts three arguments:
+             * 必须是接受以下三种参数的回调
              *
              * 1. Instance of \Psr\Http\Message\ServerRequestInterface
              * 2. Instance of \Psr\Http\Message\ResponseInterface
@@ -222,6 +244,7 @@ class Container extends PimpleContainer implements ContainerInterface
              *
              * The callable MUST return an instance of
              * \Psr\Http\Message\ResponseInterface.
+             * 指定接口的实例
              *
              * @return callable
              */
@@ -233,6 +256,7 @@ class Container extends PimpleContainer implements ContainerInterface
         if (!isset($this['callableResolver'])) {
             /**
              * Instance of \Slim\Interfaces\CallableResolverInterface
+             * 指定接口的实例
              *
              * @param Container $c
              *
