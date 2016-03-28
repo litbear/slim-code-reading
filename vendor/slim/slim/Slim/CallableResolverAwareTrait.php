@@ -18,6 +18,7 @@ use Slim\Interfaces\CallableResolverInterface;
  * This is an internal class that enables resolution of 'class:method' strings
  * into a closure. This class is an implementation detail and is used only inside
  * of the Slim application.
+ * 本trait将形如'class:method' 的字符串解析为闭包，本trait仅供Slim应用内部使用
  *
  * @property ContainerInterface $container
  */

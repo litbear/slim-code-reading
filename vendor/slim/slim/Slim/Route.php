@@ -26,6 +26,7 @@ class Route extends Routable implements RouteInterface
 
     /**
      * HTTP methods supported by this route
+     * 本规则支持的HTTP方法
      *
      * @var string[]
      */
@@ -33,6 +34,7 @@ class Route extends Routable implements RouteInterface
 
     /**
      * Route identifier
+     * 路由规则识别ID
      *
      * @var string
      */
@@ -40,6 +42,7 @@ class Route extends Routable implements RouteInterface
 
     /**
      * Route name
+     * 路由规则名称
      *
      * @var null|string
      */
@@ -47,6 +50,7 @@ class Route extends Routable implements RouteInterface
 
     /**
      * Parent route groups
+     * 父规则组
      *
      * @var RouteGroup[]
      */
@@ -56,8 +60,10 @@ class Route extends Routable implements RouteInterface
 
     /**
      * Output buffering mode
+     * 输出缓冲模式
      *
      * One of: false, 'prepend' or 'append'
+     * 关闭或者预加或者附加
      *
      * @var boolean|string
      */
@@ -65,6 +71,7 @@ class Route extends Routable implements RouteInterface
 
     /**
      * Route parameters
+     * 路由规则参数
      *
      * @var array
      */
@@ -72,6 +79,7 @@ class Route extends Routable implements RouteInterface
 
     /**
      * Create new route
+     * 创建新的路由规则
      *
      * @param string[]     $methods The route HTTP methods
      * @param string       $pattern The route pattern
@@ -90,6 +98,7 @@ class Route extends Routable implements RouteInterface
 
     /**
      * Finalize the route in preparation for dispatching
+     * 准备分配，最后确定路由规则
      */
     public function finalize()
     {
@@ -173,6 +182,7 @@ class Route extends Routable implements RouteInterface
 
     /**
      * Set output buffering mode
+     * 设置输出缓冲区类型
      *
      * One of: false, 'prepend' or 'append'
      *
@@ -265,6 +275,7 @@ class Route extends Routable implements RouteInterface
 
     /**
      * Prepare the route for use
+     * 准备路由规则以使用
      *
      * @param ServerRequestInterface $request
      * @param array $arguments
@@ -279,10 +290,13 @@ class Route extends Routable implements RouteInterface
 
     /**
      * Run route
+     * 执行路由规则
      *
      * This method traverses the middleware stack, including the route's callable
      * and captures the resultant HTTP response object. It then sends the response
      * back to the Application.
+     * 本方法需要依次执行中间件组成的栈，捕获路由规则并且合成响应对象。而后将合成后
+     * 的响应对象交给应用
      *
      * @param ServerRequestInterface $request
      * @param ResponseInterface      $response
@@ -292,9 +306,11 @@ class Route extends Routable implements RouteInterface
     public function run(ServerRequestInterface $request, ResponseInterface $response)
     {
         // Finalise route now that we are about to run it
+        // 完成路由并运行
         $this->finalize();
 
         // Traverse middleware stack and fetch updated response
+        // 依次调用中间件
         return $this->callMiddlewareStack($request, $response);
     }
 
