@@ -22,7 +22,7 @@ use Slim\Interfaces\RouteInterface;
 
 /**
  * Router
- * 路由管理器
+ * 当前路由对象
  *
  * This class organizes Slim application route objects. It is responsible
  * for registering route objects, assigning names to route objects,
@@ -141,6 +141,7 @@ class Router implements RouterInterface
 
     /**
      * Dispatch router for HTTP request
+     * 为（当前）请求分配路由器
      *
      * @param  ServerRequestInterface $request The current HTTP request object
      *

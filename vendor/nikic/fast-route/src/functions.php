@@ -4,12 +4,15 @@ namespace FastRoute;
 
 if (!function_exists('FastRoute\simpleDispatcher')) {
     /**
+     * 简单路由调度器
+     * 
      * @param callable $routeDefinitionCallback
      * @param array $options
      *
      * @return Dispatcher
      */
     function simpleDispatcher(callable $routeDefinitionCallback, array $options = []) {
+        // 数组相加，同名键不会覆盖，以先出现的为准，本操作保底
         $options += [
             'routeParser' => 'FastRoute\\RouteParser\\Std',
             'dataGenerator' => 'FastRoute\\DataGenerator\\GroupCountBased',
@@ -18,9 +21,12 @@ if (!function_exists('FastRoute\simpleDispatcher')) {
         ];
 
         /** @var RouteCollector $routeCollector */
+        // 将路由解析器 和 数据生成器 实例化后注入 路由收集器
         $routeCollector = new $options['routeCollector'](
             new $options['routeParser'], new $options['dataGenerator']
         );
+        // 将路由收集器注入匿名函数闭包 并运行
+        // 匿名函数仅是对$routeCollector 进行了操作
         $routeDefinitionCallback($routeCollector);
 
         return new $options['dispatcher']($routeCollector->getData());
