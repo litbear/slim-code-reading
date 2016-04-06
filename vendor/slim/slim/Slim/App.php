@@ -69,12 +69,14 @@ class App
 
     /**
      * Create new application
+     * 实例化新应用
      *
      * @param ContainerInterface|array $container Either a ContainerInterface or an associative array of app settings
      * @throws InvalidArgumentException when no container is provided that implements ContainerInterface
      */
     public function __construct($container = [])
     {
+        // 配置容器
         if (is_array($container)) {
             $container = new Container($container);
         }
@@ -313,6 +315,7 @@ class App
 
     /**
      * Process a request
+     * 处理请求
      *
      * This method traverses the application middleware stack and then returns the
      * resultant Response object.

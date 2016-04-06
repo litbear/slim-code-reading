@@ -9,8 +9,10 @@ interface Dispatcher {
 
     /**
      * Dispatches against the provided HTTP method verb and URI.
+     * 根据提供的HTTP方法和URI进行调度
      *
      * Returns array with one of the following formats:
+     * 返回以下格式之一
      *
      *     [self::NOT_FOUND]
      *     [self::METHOD_NOT_ALLOWED, ['GET', 'OTHER_ALLOWED_METHODS']]
