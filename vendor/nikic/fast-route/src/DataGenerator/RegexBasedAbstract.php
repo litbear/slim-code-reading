@@ -6,13 +6,33 @@ use FastRoute\DataGenerator;
 use FastRoute\BadRouteException;
 use FastRoute\Route;
 
+/**
+ * 基于正则表达式的数据生成器接口
+ */
 abstract class RegexBasedAbstract implements DataGenerator {
+    /**
+     * 储存静态路由数据
+     * @var Array $staticRoutes
+     */
     protected $staticRoutes = [];
     protected $methodToRegexToRoutesMap = [];
 
+    /**
+     * 获取大概的分块大小
+     */
     protected abstract function getApproxChunkSize();
+    /**
+     * 处理分块
+     */
     protected abstract function processChunk($regexToRoutesMap);
 
+    /**
+     * 将路由规则加入数据生成器
+     * 
+     * @param type $httpMethod
+     * @param type $routeData
+     * @param type $handler
+     */
     public function addRoute($httpMethod, $routeData, $handler) {
         if ($this->isStaticRoute($routeData)) {
             $this->addStaticRoute($httpMethod, $routeData, $handler);
@@ -44,13 +64,29 @@ abstract class RegexBasedAbstract implements DataGenerator {
         return ceil($count / $numParts);
     }
 
+    /**
+     * 判断路由规则是否是静态的
+     * @param type $routeData
+     * @return type
+     */
     private function isStaticRoute($routeData) {
+        // 路由数据的元素个数为1 且 路由数据的唯一元素直是字符串类型
         return count($routeData) == 1 && is_string($routeData[0]);
     }
 
+    /**
+     * 加入静态路由规则
+     * 
+     * @param type $httpMethod
+     * @param type $routeData
+     * @param type $handler
+     * @throws BadRouteException
+     */
     private function addStaticRoute($httpMethod, $routeData, $handler) {
+        // 取出路由数据的唯一元素值，类型为字符串
         $routeStr = $routeData[0];
 
+        // 如发现已经注册过了，则抛出异常
         if (isset($this->staticRoutes[$httpMethod][$routeStr])) {
             throw new BadRouteException(sprintf(
                 'Cannot register two routes matching "%s" for method "%s"',

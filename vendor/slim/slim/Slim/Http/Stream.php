@@ -110,8 +110,10 @@ class Stream implements StreamInterface
 
     /**
      * Is a resource attached to this stream?
-     *
+     * 是否是一个附加到流上的资源
+     * 
      * Note: This method is not part of the PSR-7 standard.
+     * 注意：本方法不是PSR-7标准之一
      *
      * @return bool
      */
@@ -204,6 +206,7 @@ class Stream implements StreamInterface
 
     /**
      * Get the size of the stream if known.
+     * 获取流的已知长度
      *
      * @return int|null Returns the size in bytes if known, or null if unknown.
      */

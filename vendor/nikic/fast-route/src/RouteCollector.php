@@ -3,16 +3,15 @@
 namespace FastRoute;
 
 /**
- * 路由规则收集器
+ * 路由规则收集器接口
  */
 class RouteCollector {
-    // 路由规则解析器
     private $routeParser;
-    // 数据创建器
     private $dataGenerator;
 
     /**
      * Constructs a route collector.
+     * 实例化路由规则收集器
      *
      * @param RouteParser   $routeParser
      * @param DataGenerator $dataGenerator
@@ -24,10 +23,10 @@ class RouteCollector {
 
     /**
      * Adds a route to the collection.
-     * 向集合中添加路由规则
+     * 将路由规则加入集合
      *
      * The syntax used in the $route string depends on the used route parser.
-     * $route 的语法由路由规则解析器解析
+     * 路由规则的语法取决于使用的路由解析器
      *
      * @param string|string[] $httpMethod
      * @param string $route
@@ -44,6 +43,7 @@ class RouteCollector {
 
     /**
      * Returns the collected route data, as provided by the data generator.
+     * 返回数据生成器提供的，已经收集的路由数据
      *
      * @return array
      */
