@@ -331,14 +331,18 @@ class App
     public function process(ServerRequestInterface $request, ResponseInterface $response)
     {
         // Ensure basePath is set
+        // basePath 为脚本所在文件夹 path为pathinfo
         $router = $this->container->get('router');
+        // 根据当前请求的basePath设置当前路由对象
         if (is_callable([$request->getUri(), 'getBasePath']) && is_callable([$router, 'setBasePath'])) {
             $router->setBasePath($request->getUri()->getBasePath());
         }
 
         // Dispatch the Router first if the setting for this is on
+        // 假如开启了“在中间件前解析路由”则首先分配路由
         if ($this->container->get('settings')['determineRouteBeforeAppMiddleware'] === true) {
             // Dispatch router (note: you won't be able to alter routes after this)
+            // 分配当前路由，注意，本操作之后将不能更改当前路由对象
             $request = $this->dispatchRouterAndPrepareRoute($request, $router);
         }
 
@@ -356,6 +360,7 @@ class App
 
     /**
      * Send the response the client
+     * 向客户端发送响应
      *
      * @param ResponseInterface $response
      */
@@ -500,6 +505,7 @@ class App
 
     /**
      * Dispatch the router to find the route. Prepare the route for use.
+     * 分配当前路由以找到匹配的路由规则，备用。
      *
      * @param ServerRequestInterface $request
      * @param RouterInterface        $router
@@ -529,6 +535,7 @@ class App
 
     /**
      * Finalize response
+     * 组织相应内容
      *
      * @param ResponseInterface $response
      * @return ResponseInterface

@@ -33,11 +33,17 @@ namespace Pimple;
  */
 class Container implements \ArrayAccess
 {
+    // 储存生成类的闭包，或者定义全局变量的字符串
     private $values = array();
+    // 储存构造器，每次返回不同的实例
     private $factories;
+    // 以参数形式储存匿名函数
     private $protected;
+    // 以单例模式取出对象时，会将本属性元素的值设为true
     private $frozen = array();
+    // 
     private $raw = array();
+    // 以array_key形式赋值的对象，都会储存key
     private $keys = array();
 
     /**
@@ -92,6 +98,7 @@ class Container implements \ArrayAccess
     /**
      * Gets a parameter or an object.
      * 获取参数或对象
+     * 在获取对象时，本方法不会返回匿名函数本身，而是返回单例
      *
      * @param string $id The unique identifier for the parameter or object
      * 参数或对象的唯一ID
@@ -107,6 +114,8 @@ class Container implements \ArrayAccess
             throw new \InvalidArgumentException(sprintf('Identifier "%s" is not defined.', $id));
         }
 
+        // 进入这个分支，返回的就是匿名函数本身了，但判断条件
+        // 现在还不是很明白
         if (
             isset($this->raw[$id])
             || !is_object($this->values[$id])
@@ -116,6 +125,7 @@ class Container implements \ArrayAccess
             return $this->values[$id];
         }
 
+        // 进入这个分支，返回的是一个新的实例
         if (isset($this->factories[$this->values[$id]])) {
             return $this->values[$id]($this);
         }
@@ -162,6 +172,7 @@ class Container implements \ArrayAccess
     /**
      * Marks a callable as being a factory service.
      * 标记一个回调函数为工厂服务
+     * factories属性储存构造器，每次返回不同的实例
      *
      * @param callable $callable A service definition to be used as a factory
      *
@@ -207,6 +218,8 @@ class Container implements \ArrayAccess
     /**
      * Gets a parameter or the closure defining an object.
      * 获取一个参数或定义对象的回调函数
+     * 本方法获取回调函数本身，例如$c->foo或者$c['foo']返回的是匿名函数的返回值
+     * 本方法返回的是匿名函数本身
      *
      * @param string $id The unique identifier for the parameter or object
      *
@@ -244,24 +257,29 @@ class Container implements \ArrayAccess
      */
     public function extend($id, $callable)
     {
+        // 必须是已经注入到的类
         if (!isset($this->keys[$id])) {
             throw new \InvalidArgumentException(sprintf('Identifier "%s" is not defined.', $id));
         }
 
+        // 该类必须以对象或者闭包的形式注册，不能是字符串参数
         if (!is_object($this->values[$id]) || !method_exists($this->values[$id], '__invoke')) {
             throw new \InvalidArgumentException(sprintf('Identifier "%s" does not contain an object definition.', $id));
         }
 
+        // 第二个参数必须是对象或者闭包
         if (!is_object($callable) || !method_exists($callable, '__invoke')) {
             throw new \InvalidArgumentException('Extension service definition is not a Closure or invokable object.');
         }
 
+        // 
         $factory = $this->values[$id];
 
         $extended = function ($c) use ($callable, $factory) {
             return $callable($factory($c), $c);
         };
 
+        // 重新绑定工厂生成器
         if (isset($this->factories[$factory])) {
             $this->factories->detach($factory);
             $this->factories->attach($extended);

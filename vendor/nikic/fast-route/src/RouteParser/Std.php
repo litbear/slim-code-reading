@@ -7,6 +7,8 @@ use FastRoute\RouteParser;
 
 /**
  * Parses route strings of the following form:
+ * 标准路由规则解析器
+ * 解析路由规则字符串
  *
  * "/user/{name}[/{id:[0-9]+}]"
  */
