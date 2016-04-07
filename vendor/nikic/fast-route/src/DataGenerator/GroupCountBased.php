@@ -7,6 +7,12 @@ class GroupCountBased extends RegexBasedAbstract {
         return 10;
     }
 
+    /**
+     * 处理给定的$chunks中的每一个元素
+     * 
+     * @param type $regexToRoutesMap
+     * @return type
+     */
     protected function processChunk($regexToRoutesMap) {
         $routeMap = [];
         $regexes = [];

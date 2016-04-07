@@ -19,6 +19,7 @@ abstract class RegexBasedAbstract implements Dispatcher {
      * @return type
      */
     public function dispatch($httpMethod, $uri) {
+        // 先找没有占位符的，特殊处理HEAD方法
         if (isset($this->staticRouteMap[$httpMethod][$uri])) {
             $handler = $this->staticRouteMap[$httpMethod][$uri];
             return [self::FOUND, $handler, []];
@@ -28,6 +29,7 @@ abstract class RegexBasedAbstract implements Dispatcher {
         }
 
         $varRouteData = $this->variableRouteData;
+        // 再找拥有占位符的，特殊处理HEAD方法
         if (isset($varRouteData[$httpMethod])) {
             $result = $this->dispatchVariableRoute($varRouteData[$httpMethod], $uri);
             if ($result[0] === self::FOUND) {

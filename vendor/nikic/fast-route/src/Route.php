@@ -2,6 +2,10 @@
 
 namespace FastRoute;
 
+/**
+ * 路由规则实例类
+ * 用于包裹带有变量占位符的路由规则
+ */
 class Route {
     public $httpMethod;
     public $regex;
