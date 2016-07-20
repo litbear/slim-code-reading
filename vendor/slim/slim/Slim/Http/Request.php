@@ -304,6 +304,7 @@ class Request extends Message implements ServerRequestInterface
 
     /**
      * Validate the HTTP method
+     * 过滤掉非法的HTTP方法
      *
      * @param  null|string $method
      * @return null|string
